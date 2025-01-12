@@ -13,14 +13,14 @@
     <q-card class="text-center q-pa-md overlay-card">
       <q-card-section>
         <!-- Naslov -->
-        <h2 class="welcome-title">{{ $t("welcomeToWorld") }}</h2>
+        <h2 class="welcome-title">Dobrodošli na WorldAdventureApp</h2>
         <!-- Popratni tekst -->
         <p class="welcome-text">
-          {{ $t("welcomeToworldP") }}
+          Ovdje započinje vaša avantura! Pridružite nam se!
         </p>
         <!-- Gumb za navigaciju -->
         <q-btn
-          :label="$t('homeButton')"
+          label="Započni"
           color="primary"
           class="q-mt-md start-button"
           @click="goToNextPage"
@@ -37,7 +37,7 @@ const router = useRouter();
 
 // Funkcija za navigaciju na drugu stranicu
 function goToNextPage() {
-  router.push("/o_igri"); // Putanja prema željenoj stranici
+  router.push("/korisnik/o_igri"); // Putanja prema željenoj stranici
 }
 </script>
 
