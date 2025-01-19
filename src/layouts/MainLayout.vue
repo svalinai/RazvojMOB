@@ -20,7 +20,7 @@
       <q-list>
         <q-item-label header>Essential Links</q-item-label>
 
-        <!-- Dinamički generišemo linkove prema definisanim rutama -->
+        <!-- Dynamically generating links based on defined routes -->
         <q-item
           v-for="link in linksList"
           :key="link.title"
@@ -32,7 +32,9 @@
               <q-icon :name="link.icon" />
             </q-item-section>
             <q-item-section>
+              <!-- Translating the title -->
               <q-item-label>{{ $t(link.title) }}</q-item-label>
+              <!-- Translating the caption dynamically -->
               <q-item-label caption>{{ $t(link.caption) }}</q-item-label>
             </q-item-section>
           </router-link>
@@ -59,49 +61,49 @@ defineOptions({
   name: "MainLayout",
 });
 
-// Dinamički sadržaj linkova
+// Dynamically defining the link contents
 const linksList = [
-  { title: "home", caption: "Index page", icon: "home", path: "/" },
+  { title: "home", caption: "IndexPageCap", icon: "home", path: "/" },
   {
     title: "aboutUs",
-    caption: "Informacije o nama",
+    caption: "aboutUsCap",
     icon: "info",
     path: "/o_nama",
   },
   {
     title: "location",
-    caption: "Naša lokacija",
+    caption: "locationCap",
     icon: "location_on",
     path: "/lokacija",
   },
-  { title: "login", caption: "Prijavite se", icon: "login", path: "/login" },
+  { title: "login", caption: "loginCap", icon: "login", path: "/login" },
   {
     title: "register",
-    caption: "Kreirajte nalog",
+    caption: "registerCap",
     icon: "how_to_reg",
     path: "/registracija",
   },
   {
     title: "settings",
-    caption: "Podesavanja",
+    caption: "settingsCap",
     icon: "settings",
     path: "/settings",
   },
   {
     title: "faq",
-    caption: "Cesto postavljena pitanja",
+    caption: "faqCap",
     icon: "announcement",
     path: "/faq",
   },
   {
-    title: "gameInfo",
-    caption: "Saznajte više o igri",
+    title: "gameInfo2",
+    caption: "oIgriCap",
     icon: "videogame_asset",
     path: "/o_igri",
   },
   {
     title: "contact",
-    caption: "Kontaktirajte nas",
+    caption: "kontaktCap",
     icon: "call",
     path: "/kontakt",
   },

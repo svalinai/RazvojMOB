@@ -1,9 +1,8 @@
 <template>
   <q-page padding>
-    <h1>Kontakt</h1>
+    <h1>{{ $t("kontakt") }}</h1>
     <p>
-      Imate pitanje, prijedlog ili želite podijeliti povratne informacije?
-      Molimo vas da popunite obrazac u nastavku:
+      {{ $t("kontakt2") }}
     </p>
 
     <q-form @submit.prevent="openDialog">
@@ -19,7 +18,7 @@
       <q-input
         filled
         v-model="message"
-        label="Poruka"
+        :label="$t('kontaktPoruka')"
         type="textarea"
         :rules="[(val) => !!val || 'Poruka je obavezna']"
         required
@@ -27,7 +26,7 @@
       />
 
       <!-- Učitavanje slike putem Cloudinary widgeta -->
-      <q-btn label="Odaberi sliku" @click="handleImageUpload" />
+      <q-btn :label="$t('kontaktSlika')" @click="handleImageUpload" />
 
       <!-- Prikaz kamere -->
       <div v-if="cameraActive">
@@ -42,7 +41,7 @@
 
       <!-- Prikaz slike ako je odabrana -->
       <div v-if="imageUrl" class="q-mt-md">
-        <h6>Pregled slike:</h6>
+        <h6>{{ $t("kontaktPregled") }}</h6>
         <img
           :src="imageUrl"
           alt="Pregled slike"
@@ -51,23 +50,32 @@
       </div>
 
       <div>
-        <q-btn label="Pošalji" type="submit" color="primary" class="q-mt-md" />
+        <q-btn
+          :label="$t('kontaktSend')"
+          type="submit"
+          color="primary"
+          class="q-mt-md"
+        />
       </div>
     </q-form>
 
     <q-dialog v-model="dialogVisible" persistent>
       <q-card>
         <q-card-section>
-          <div class="text-h6">Potvrda slanja</div>
-          <div>Želite li stvarno poslati poruku?</div>
+          <div class="text-h6">{{ $t("kontaktPotvrda") }}</div>
+          <div>{{ $t("kontaktPitanje") }}</div>
         </q-card-section>
         <q-card-actions>
           <q-btn
-            label="Otkaži"
+            :label="$t('kontaktOtkazi')"
             color="negative"
             @click="dialogVisible = false"
           />
-          <q-btn label="Pošalji" color="positive" @click="handleSubmit" />
+          <q-btn
+            :label="$t('kontaktSend')"
+            color="positive"
+            @click="handleSubmit"
+          />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -78,6 +86,9 @@
 import { ref, onMounted } from "vue";
 import { useQuasar } from "quasar";
 import emailjs from "emailjs-com";
+
+import { useI18n } from "vue-i18n"; // Import useI18n
+const { t } = useI18n();
 
 const $q = useQuasar();
 
@@ -111,7 +122,7 @@ const handleImageUpload = () => {
         if (error) {
           console.error("Cloudinary upload error:", error);
           $q.notify({
-            message: "Greška prilikom učitavanja slike.",
+            message: "Error.",
             color: "negative",
           });
           return;
@@ -163,7 +174,7 @@ const handleSubmit = async () => {
   if (!imageUrl.value) {
     $q.notify({
       type: "negative",
-      message: "Molimo dodajte sliku prije slanja poruke.",
+      message: t("kontaktFaliSlika"),
     });
     return;
   }

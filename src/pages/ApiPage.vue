@@ -25,10 +25,16 @@
           >
             <q-item-section>
               <div class="q-pa-xs">
-                <div class="text-h6">{{ decodeHtml(question.question) }}</div>
+                <!-- Pitanje -->
+                <div class="text-h6 text-primary">
+                  {{ decodeHtml(question.question) }}
+                </div>
 
                 <!-- Skriveni odgovor -->
-                <div v-if="question.showAnswer" class="q-mt-md text-subtitle2">
+                <div
+                  v-if="question.showAnswer"
+                  class="q-mt-md text-subtitle2 text-success"
+                >
                   <strong>Answer:</strong>
                   {{ decodeHtml(question.correct_answer) }}
                 </div>
@@ -67,32 +73,60 @@ const decodeHtml = (html) => {
 
 // Funkcija za dohvat pitanja sa Open Trivia API
 const fetchTriviaQuestions = async () => {
-  loading.value = true; // Postavljanje loading statusa
+  loading.value = true; // Set loading state to true
   try {
     const response = await fetch(
       "https://opentdb.com/api.php?amount=10&category=15&difficulty=medium"
     );
     const data = await response.json();
 
+    // Check for response code from API
     if (data.response_code === 0) {
-      // Dodajemo odgovore u pitanja
+      // Successfully received questions
       questions.value = data.results.map((question) => ({
         ...question,
-        showAnswer: false, // Postavljamo da odgovori nisu prikazani inicijalno
+        showAnswer: false, // Initially set answers hidden
       }));
-    } else {
+    } else if (data.response_code === 1) {
+      // No results found
       Notify.create({
         type: "negative",
-        message: "Error fetching trivia questions. Please try again later.",
+        message: "No trivia questions found. Please try again later.",
+      });
+    } else if (data.response_code === 2) {
+      // Invalid API key (if applicable)
+      Notify.create({
+        type: "negative",
+        message: "Invalid API key. Please check your configuration.",
+      });
+    } else if (data.response_code === 3) {
+      // Token not found or invalid (if using tokens)
+      Notify.create({
+        type: "negative",
+        message: "Invalid or expired token. Please try again.",
+      });
+    } else if (data.response_code === 4) {
+      // Too many requests (rate limit exceeded)
+      Notify.create({
+        type: "negative",
+        message: "API rate limit exceeded. Please try again later.",
+      });
+    } else {
+      // Unknown response code
+      Notify.create({
+        type: "negative",
+        message: "An unknown error occurred. Please try again later.",
       });
     }
   } catch (error) {
+    // General error handling (e.g., network issues)
     Notify.create({
       type: "negative",
-      message: "Failed to fetch trivia questions.",
+      message:
+        "Failed to fetch trivia questions. Please check your connection.",
     });
   } finally {
-    loading.value = false; // Završetak učitavanja
+    loading.value = false; // End loading state
   }
 };
 
@@ -144,5 +178,18 @@ fetchTriviaQuestions();
 
 .q-pa-sm {
   padding: 16px;
+}
+
+/* Custom Colors */
+.text-primary {
+  color: #1976d2; /* Primary Color */
+}
+
+.text-success {
+  color: #4caf50; /* Success Color (Green) */
+}
+
+.text-h6 {
+  font-size: 1.25rem;
 }
 </style>

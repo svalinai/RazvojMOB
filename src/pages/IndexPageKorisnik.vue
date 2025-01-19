@@ -4,7 +4,7 @@
     <div class="background-container">
       <img
         alt="naslovna slika"
-        src="~assets/kemal.jpg"
+        src="~assets/ter4.png"
         class="background-image"
       />
     </div>
@@ -13,14 +13,14 @@
     <q-card class="text-center q-pa-md overlay-card">
       <q-card-section>
         <!-- Naslov -->
-        <h2 class="welcome-title">Dobrodošli na WorldAdventureApp</h2>
+        <h2 class="welcome-title">{{ $t("welcomeToWorld") }}</h2>
         <!-- Popratni tekst -->
         <p class="welcome-text">
-          Ovdje započinje vaša avantura! Pridružite nam se!
+          {{ $t("welcomeToworldP") }}
         </p>
         <!-- Gumb za navigaciju -->
         <q-btn
-          label="Započni"
+          :label="$t('homeButton')"
           color="primary"
           class="q-mt-md start-button"
           @click="goToNextPage"

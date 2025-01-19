@@ -2,55 +2,30 @@
   <q-page padding>
     <q-card class="q-pa-md">
       <q-card-section>
-        <div class="text-h6">Recenzije</div>
+        <div class="text-h6">{{ $t("recenzija") }}</div>
       </q-card-section>
 
       <q-card-section>
         <q-form @submit.prevent="dodajRecenziju">
           <q-input
             v-model="novaRecenzija.ime_korisnika"
-            label="Ime korisnika"
+            :label="$t('recenzijaIME')"
             outlined
             dense
             required
           />
           <q-input
             v-model="novaRecenzija.tekst_recenzije"
-            label="Tekst recenzije"
+            :label="$t('recenzijaTEXT')"
             type="textarea"
             outlined
             dense
             required
           />
 
-          <!-- Dodaj fotoaparat -->
-          <div class="q-mt-md">
-            <video
-              ref="camera"
-              autoplay
-              playsinline
-              style="width: 100%; border: 1px solid #ccc; margin-bottom: 10px"
-            ></video>
-            <q-btn
-              color="primary"
-              label="Snimite Fotografiju"
-              @click="takePhoto"
-            />
-          </div>
-
-          <!-- Prikaz snimljene fotografije -->
-          <div v-if="novaRecenzija.slika" class="photo-preview q-mt-md">
-            <h6>Vaša fotografija:</h6>
-            <img
-              :src="novaRecenzija.slika"
-              alt="Captured Photo"
-              style="width: 100%; border: 1px solid #ccc"
-            />
-          </div>
-
           <q-btn
             type="submit"
-            label="Dodaj recenziju"
+            :label="$t('recenzijaButton')"
             color="primary"
             class="q-mt-md"
           />
@@ -93,7 +68,6 @@ export default {
         tekst_recenzije: "",
         slika: null,
       },
-      cameraStream: null,
     };
   },
   methods: {
@@ -136,8 +110,7 @@ export default {
         // Show a success notification to the user
         this.$q.notify({
           color: "green",
-          message:
-            "Recenzija je uspešno poslata! Hvala što ste podelili svoje mišljenje.",
+          message: this.$t("recenzijaDa"),
           icon: "check_circle",
           position: "top-right",
           timeout: 3000, // Obavijest nestaje nakon 3 sekunde
@@ -148,57 +121,18 @@ export default {
         // Show an error notification in case something went wrong
         this.$q.notify({
           color: "red",
-          message:
-            "Došlo je do greške prilikom slanja recenzije. Pokušajte ponovo.",
+          message: this.$t("recenzijaNe"),
           icon: "error",
           position: "top-right",
           timeout: 3000,
         });
       }
     },
-
-    // Start camera
-    async startCamera() {
-      try {
-        this.cameraStream = await navigator.mediaDevices.getUserMedia({
-          video: true,
-        });
-        this.$refs.camera.srcObject = this.cameraStream;
-      } catch (error) {
-        console.error("Greška pri pokretanju kamere:", error);
-        alert("Kamera nije dostupna. Provjerite postavke uređaja.");
-      }
-    },
-
-    // Stop camera
-    stopCamera() {
-      if (this.cameraStream) {
-        const tracks = this.cameraStream.getTracks();
-        tracks.forEach((track) => track.stop());
-      }
-    },
-
-    // Capture photo
-    takePhoto() {
-      const canvas = document.createElement("canvas");
-      const context = canvas.getContext("2d");
-
-      canvas.width = this.$refs.camera.videoWidth;
-      canvas.height = this.$refs.camera.videoHeight;
-      context.drawImage(this.$refs.camera, 0, 0, canvas.width, canvas.height);
-
-      this.novaRecenzija.slika = canvas.toDataURL("image/png");
-    },
   },
 
   mounted() {
     // Fetch recenzije when the component is mounted
     this.fetchRecenzije();
-    this.startCamera();
-  },
-
-  beforeUnmount() {
-    this.stopCamera();
   },
 };
 </script>

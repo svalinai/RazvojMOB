@@ -128,7 +128,7 @@ onMounted(() => {
   if (!window.google || !window.google.maps) {
     const script = document.createElement("script");
     script.src =
-      "https://maps.googleapis.com/maps/api/js?key=AIzaSyA4yC3rL0XtD5U5l6-tgWsStmXBUf1D_Us&callback=initMap";
+      "https://maps.googleapis.com/maps/api/js?key=MOJ_API KLJUC&callback=initMap"; //DODATI API KLJUC GOOGLE MAPS
     script.async = true;
     script.defer = true;
 

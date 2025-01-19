@@ -4,7 +4,7 @@
     <div class="background-container">
       <img
         alt="naslovna slika"
-        src="~assets/kemal.jpg"
+        src="~assets/ter4.png"
         class="background-image"
       />
     </div>

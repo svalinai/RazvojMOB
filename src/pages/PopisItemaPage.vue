@@ -1,14 +1,14 @@
 <template>
   <q-page padding>
     <div class="text-center">
-      <h1 class="text-h5 q-mb-lg">Popis Predmeta</h1>
+      <h1 class="text-h5 q-mb-lg">{{ $t("predmetiVrh") }}</h1>
     </div>
 
     <q-card class="q-pa-md bg-primary text-white shadow-5">
       <q-card-section>
-        <div class="text-h6">Svi Predmeti</div>
+        <div class="text-h6">{{ $t("predmeti") }}</div>
         <p class="text-subtitle2">
-          Ispod je prikazan popis svih dostupnih predmeta iz baze podataka.
+          {{ $t("predmetiP") }}
         </p>
       </q-card-section>
     </q-card>
